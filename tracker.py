@@ -1,15 +1,37 @@
 import json
+import requests
 
-with open("products.json", "r") as f:
+# Load products
+with open("products.json", "r", encoding="utf-8") as f:
     products = json.load(f)["products"]
 
 print("=" * 40)
 print("Universal Stock Tracker")
 print("=" * 40)
 
+headers = {
+    "User-Agent": "Mozilla/5.0"
+}
+
 for product in products:
-    print()
+
+    print("\n------------------------------")
     print("Product:", product["name"])
-    print("Store:", product["store"])
-    print("Size:", product["size"])
-    print("URL:", product["url"])
+
+    try:
+        response = requests.get(
+            product["url"],
+            headers=headers,
+            timeout=30
+        )
+
+        print("Status Code:", response.status_code)
+
+        if response.status_code == 200:
+            print("✅ Downloaded Successfully")
+            print("Page Length:", len(response.text))
+        else:
+            print("❌ Failed")
+
+    except Exception as e:
+        print("Error:", e)
