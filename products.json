@@ -1,9 +1,11 @@
 {
   "products": [
     {
-      "name": "Zara Jacket",
+      "id": "zara_001",
+      "name": "Zara Cropped Fit Frogging Jacket",
       "store": "zara",
-      "size": "M",
+      "country": "India",
+      "sizes": ["M"],
       "url": "https://www.zara.com/in/en/cropped-fit-frogging-embroidery--jacket-p00706406.html"
     }
   ]
