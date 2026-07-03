@@ -10,13 +10,6 @@ HEADERS = {
 
 STORE_ID = 11744
 
-SIZE_MAP = {
-    529510405: "S",
-    529510406: "M",
-    529510407: "L",
-    529510408: "XL",
-}
-
 
 def build_availability_url(product_id):
     return (
@@ -29,7 +22,7 @@ def check(product):
 
     print("Checking Zara...")
 
-    # Temporary product ID for this jacket
+    # Temporary product ID
     product_id = 529513633
 
     api = build_availability_url(product_id)
@@ -47,11 +40,11 @@ def check(product):
     data = response.json()
 
     print()
-    print("Stock Status")
-    print()
+    print("Raw API Response")
+    print("-" * 40)
 
-for item in data["skusAvailability"]:
-    print(item)
+    for item in data["skusAvailability"]:
+        print(item)
 
     return {
         "status": "OK"
