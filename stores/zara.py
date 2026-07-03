@@ -50,12 +50,8 @@ def check(product):
     print("Stock Status")
     print()
 
-    for item in data["skusAvailability"]:
-        sku = item["sku"]
-        size = SIZE_MAP.get(sku, "Unknown")
-        availability = item["availability"]
-
-        print(f"{size} -> {availability}")
+for item in data["skusAvailability"]:
+    print(item)
 
     return {
         "status": "OK"
