@@ -3,7 +3,11 @@
     {
       "name": "Zara Cropped Fit Frogging Jacket",
       "url": "https://www.zara.com/in/en/cropped-fit-frogging-embroidery--jacket-p00706406.html",
-      "sizes": ["M"]
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ]
     }
   ]
 }
