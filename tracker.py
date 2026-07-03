@@ -7,4 +7,10 @@ print("=" * 40)
 print("Universal Stock Tracker")
 print("=" * 40)
 
-print(f"Loaded {len(products)} products")
+print(f"Loaded {len(products)} products\n")
+
+for product in products:
+    print("Product :", product["name"])
+    print("URL     :", product["url"])
+    print("Sizes   :", ", ".join(product["sizes"]))
+    print("-" * 40)
