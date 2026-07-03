@@ -8,6 +8,13 @@ HEADERS = {
     )
 }
 
+SIZE_MAP = {
+    529510405: "S",
+    529510406: "M",
+    529510407: "L",
+    529510408: "XL"
+}
+
 STORE_ID = 11744
 
 
@@ -37,10 +44,11 @@ def check(product):
     print("\nStock Status")
 
     for item in data["skusAvailability"]:
-        print(
-            f'SKU {item["sku"]} -> {item["availability"]}'
-        )
 
-    return {
-        "status": "OK"
-    }
+    sku = item["sku"]
+
+    size = SIZE_MAP.get(sku, "Unknown")
+
+    print(
+        f"{size} -> {item['availability']}"
+    )
