@@ -8,14 +8,14 @@ HEADERS = {
     )
 }
 
+STORE_ID = 11744
+
 SIZE_MAP = {
     529510405: "S",
     529510406: "M",
     529510407: "L",
-    529510408: "XL"
+    529510408: "XL",
 }
-
-STORE_ID = 11744
 
 
 def build_availability_url(product_id):
@@ -29,6 +29,7 @@ def check(product):
 
     print("Checking Zara...")
 
+    # Temporary product ID for this jacket
     product_id = 529513633
 
     api = build_availability_url(product_id)
@@ -39,16 +40,23 @@ def check(product):
         timeout=30
     )
 
+    if response.status_code != 200:
+        print("API Error:", response.status_code)
+        return {"status": "API Error"}
+
     data = response.json()
 
-    print("\nStock Status")
+    print()
+    print("Stock Status")
+    print()
 
     for item in data["skusAvailability"]:
+        sku = item["sku"]
+        size = SIZE_MAP.get(sku, "Unknown")
+        availability = item["availability"]
 
-    sku = item["sku"]
+        print(f"{size} -> {availability}")
 
-    size = SIZE_MAP.get(sku, "Unknown")
-
-    print(
-        f"{size} -> {item['availability']}"
-    )
+    return {
+        "status": "OK"
+    }
