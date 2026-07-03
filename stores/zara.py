@@ -39,13 +39,16 @@ def check(product):
 
     data = response.json()
 
-    print()
-    print("Raw API Response")
-    print("-" * 40)
+    found = False
 
     for item in data["skusAvailability"]:
-        print(item)
+        if item["availability"] == "in_stock":
+            found = True
+            break
 
-    return {
-        "status": "OK"
-    }
+    if found:
+        print("🟢 STOCK AVAILABLE!")
+        return {"status": "IN STOCK"}
+
+    print("🔴 OUT OF STOCK")
+    return {"status": "OUT OF STOCK"}
