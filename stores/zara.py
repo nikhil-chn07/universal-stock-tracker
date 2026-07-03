@@ -8,21 +8,36 @@ HEADERS = {
     )
 }
 
+STORE_ID = 11744
+
+
+def build_availability_url(product_id):
+    return (
+        f"https://www.zara.com/itxrest/1/catalog/store/"
+        f"{STORE_ID}/product/id/{product_id}/availability"
+    )
+
 
 def check(product):
 
     print("Checking Zara...")
 
+    # Temporary product ID
+    product_id = 529513633
+
+    api = build_availability_url(product_id)
+
+    print("Availability API:")
+    print(api)
+
     response = requests.get(
-        product["url"],
+        api,
         headers=HEADERS,
         timeout=30
     )
 
-    print("Status Code :", response.status_code)
-    print("Page Length :", len(response.text))
+    print("Status Code:", response.status_code)
 
     return {
-        "status": response.status_code,
-        "length": len(response.text)
+        "status": response.status_code
     }
