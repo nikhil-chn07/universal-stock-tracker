@@ -4,7 +4,10 @@ on:
   workflow_dispatch:
 
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
 
 jobs:
   track:
@@ -13,6 +16,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -24,5 +29,15 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Tracker
+        run: python tracker.py
+
+      - name: Commit updated state
         run: |
-          python tracker.py
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add state.json
+
+          git diff --cached --quiet || git commit -m "Update tracker state"
+
+          git push
