@@ -1,4 +1,5 @@
 import requests
+import json
 
 HEADERS = {
     "User-Agent": (
@@ -20,11 +21,16 @@ def build_availability_url(product_id):
 
 def check(product):
 
-    print("Checking Zara...")
+    print("=" * 50)
+    print("Checking Zara")
+    print("=" * 50)
 
+    # TODO: This will be extracted automatically later
     product_id = 529513633
 
     api = build_availability_url(product_id)
+
+    print("API:", api)
 
     response = requests.get(
         api,
@@ -32,26 +38,35 @@ def check(product):
         timeout=30
     )
 
-    print("Status:", response.status_code)
+    print("Status Code:", response.status_code)
 
     if response.status_code != 200:
         return {"status": "API Error"}
 
     data = response.json()
 
-    print("\nStock Status")
+    print("\n===== RAW RESPONSE =====")
+    print(json.dumps(data, indent=4))
+    print("========================\n")
 
-    found = False
+    in_stock = False
 
-    for item in data["skusAvailability"]:
-        print(item)
+    if "skusAvailability" in data:
+        for item in data["skusAvailability"]:
 
-        if item["availability"] == "in_stock":
-            found = True
+            sku = item.get("sku")
+            availability = item.get("availability")
 
-    if found:
-        print("\n🟢 STOCK AVAILABLE!")
+            print(f"SKU: {sku}")
+            print(f"Availability: {availability}")
+            print("-" * 30)
+
+            if availability == "in_stock":
+                in_stock = True
+
+    if in_stock:
+        print("🟢 AT LEAST ONE VARIANT IS IN STOCK")
         return {"status": "IN STOCK"}
 
-    print("\n🔴 OUT OF STOCK")
+    print("🔴 ALL VARIANTS ARE OUT OF STOCK")
     return {"status": "OUT OF STOCK"}
