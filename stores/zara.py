@@ -22,13 +22,9 @@ def check(product):
 
     print("Checking Zara...")
 
-    # Temporary product ID
     product_id = 529513633
 
     api = build_availability_url(product_id)
-
-    print("Availability API:")
-    print(api)
 
     response = requests.get(
         api,
@@ -36,8 +32,15 @@ def check(product):
         timeout=30
     )
 
-    print("Status Code:", response.status_code)
+    data = response.json()
+
+    print("\nStock Status")
+
+    for item in data["skusAvailability"]:
+        print(
+            f'SKU {item["sku"]} -> {item["availability"]}'
+        )
 
     return {
-        "status": response.status_code
+        "status": "OK"
     }
