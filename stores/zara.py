@@ -22,7 +22,6 @@ def check(product):
 
     print("Checking Zara...")
 
-    # Temporary product ID
     product_id = 529513633
 
     api = build_availability_url(product_id)
@@ -33,22 +32,26 @@ def check(product):
         timeout=30
     )
 
+    print("Status:", response.status_code)
+
     if response.status_code != 200:
-        print("API Error:", response.status_code)
         return {"status": "API Error"}
 
     data = response.json()
 
+    print("\nStock Status")
+
     found = False
 
     for item in data["skusAvailability"]:
+        print(item)
+
         if item["availability"] == "in_stock":
             found = True
-            break
 
     if found:
-        print("🟢 STOCK AVAILABLE!")
+        print("\n🟢 STOCK AVAILABLE!")
         return {"status": "IN STOCK"}
 
-    print("🔴 OUT OF STOCK")
+    print("\n🔴 OUT OF STOCK")
     return {"status": "OUT OF STOCK"}
